@@ -39,33 +39,39 @@ const AuthContextProvider: FunctionComponent<Props> = ({ children }) => {
   const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("AuthContextProvider");
-    const accessToken = localStorage.getItem("access");
+    const init = async () => {
+      const access = localStorage.getItem("access");
 
-    if (accessToken) {
-      const decodedToken = jwtDecode(accessToken) as IToken;
-      console.log(decodedToken);
-      if (decodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem("access");
-        // TODO refresh token
-      } else {
-        setToken(decodedToken);
-        fetchMe()
-          .then((user) => {
-            setUser(user);
-          })
-          .catch((error) => {
-            // TODO エラー処理
-          });
+      if (access) {
+        const decodedToken = jwtDecode(access) as IToken;
+        if (decodedToken.exp * 1000 < Date.now()) {
+          reset();
+        } else {
+          setToken(decodedToken);
+
+          try {
+            const me = await fetchMe();
+            setUser(me);
+          } catch (e) {
+            localStorage.removeItem("access");
+          }
+        }
       }
-    }
+    };
+
+    init();
   }, []);
 
+  function reset() {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+  }
+
   const login = async (email: string, password: string) => {
-    console.log("LOGIN");
     setErrors([]);
 
-    // バリデーション
     const newErrors = [];
     if (!email) newErrors.push("メールアドレスを入力してください");
 
@@ -81,12 +87,12 @@ const AuthContextProvider: FunctionComponent<Props> = ({ children }) => {
 
       if (access) {
         localStorage.setItem("access", access);
+        localStorage.setItem("refresh", refresh);
         const decodedToken = jwtDecode(access) as IToken;
         setToken(decodedToken);
         setUser(await fetchMe());
-        localStorage.setItem("refresh", refresh);
       } else {
-        // TODO ログインできない場合
+        reset();
       }
     } catch (e) {
       setErrors(["メールアドレスまたはパスワードが違います"]);
@@ -95,10 +101,7 @@ const AuthContextProvider: FunctionComponent<Props> = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    setToken(null);
-    setUser(null);
+    reset();
   };
 
   return (
