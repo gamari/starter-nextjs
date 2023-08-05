@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Block } from "./Block";
+import { Block } from "../layout/Block";
 
 interface Props {
   children: React.ReactNode;

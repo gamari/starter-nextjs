@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Block } from "./Block";
+import { Block } from "./layout/Block";
 import Link from "next/link";
-import { Overlay } from "./Overlay";
+import { Overlay } from "./layout/Overlay";
 
 export const Header = () => {
   return (

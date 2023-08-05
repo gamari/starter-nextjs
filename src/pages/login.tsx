@@ -1,7 +1,6 @@
+import { LoginForm } from "@/features/account/components/LoginForm";
+import { Block } from "@/features/base/components/layout/Block";
 import React from "react";
-
-import { Block } from "@/features/base/components/Block";
-import { LoginForm } from "@/features/user/components/LoginForm";
 
 const Index = () => {
   return (

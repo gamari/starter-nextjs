@@ -1,13 +1,13 @@
-import { Block } from "@/features/base/components/Block";
-import { useAuthContext } from "@/features/user/contexts/AuthContext";
+import { useAuthContext } from "@/features/account/contexts/AuthContext";
+import { Block } from "@/features/base/components/layout/Block";
 import Link from "next/link";
 
 export default function Home() {
-  const { user, logout } = useAuthContext();
+  const { session, logout } = useAuthContext();
 
   return (
     <main>
-      {user ? (
+      {session ? (
         <Block onClick={() => logout()}>ログアウト</Block>
       ) : (
         <Block>

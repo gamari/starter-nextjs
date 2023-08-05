@@ -3,17 +3,19 @@
 Next.jsのスターターキットです。
 
 
-# コマンド
+## 環境構築
 
-## 初回インストール
+以下の手順を踏んでください。
 
-```shell
+1. npm install
+
+```bash
 npm i
 ```
 
-## 開発サーバー実行
+2. サーバーの起動
 
-```shell
+```bash
 npm run dev
 ```
 
@@ -22,7 +24,9 @@ npm run dev
 
 ## 共通コンポーネント
 
-/src/features/base/components配下に色々な共通コンポーネントが存在します。
+/src/features/base/components
+
+配下に色々な共通コンポーネントが存在します。
 
 ## 認証機能
 

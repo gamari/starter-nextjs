@@ -1,10 +1,9 @@
-import { Block } from "@/features/base/components/Block";
-import { Card } from "@/features/base/components/Card";
-import { Title } from "@/features/base/components/Title";
+import { Card } from "@/features/base/components/display/Card";
+import { Title } from "@/features/base/components/display/Title";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
-import { Errors } from "@/features/base/components/Errors";
+import { ErrorList } from "@/features/error/components/ErrorList";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -17,7 +16,6 @@ export const LoginForm = () => {
   ) => {
     event.preventDefault();
     await login(email, password);
-    router.push("/");
   };
 
   return (
@@ -48,7 +46,7 @@ export const LoginForm = () => {
         Login
       </button>
 
-      <Errors errors={errors} />
+      <ErrorList errors={errors} />
     </Card>
   );
 };
